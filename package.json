@@ -12,7 +12,10 @@
   "license": "ISC",
   "devDependencies": {
     "husky": "^9.1.7",
-    "pretty-quick": "^4.2.2"
+    "less": "^4.3.0",
+    "pretty-quick": "^4.2.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "unbuild": "^3.5.0"
   },
   "prettier": {
     "printWidth": 85,
