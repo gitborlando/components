@@ -1,0 +1,26 @@
+{
+  "name": "g-icon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "prepare": "npx husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "pretty-quick": "^4.2.2"
+  },
+  "prettier": {
+    "printWidth": 85,
+    "jsxBracketSameLine": true,
+    "useTabs": false,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true
+  }
+}
