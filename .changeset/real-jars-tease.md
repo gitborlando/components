@@ -1,5 +1,5 @@
 ---
-'@gitborlando/components': major
+'@gitborlando/widget': patch
 ---
 
 初始化
