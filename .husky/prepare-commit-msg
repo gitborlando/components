@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 msg_file=$1
 msg=$(cat "$msg_file")
 source=$2
 branch=$(git symbolic-ref --short HEAD)
 
-if [[ "$source" == "squash" || "$source" == "rebase" ]]; then
+if [ "$source" = "squash" ] || [ "$source" = "rebase" ]; then
   exit 0
 fi
 
