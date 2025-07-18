@@ -1,4 +1,4 @@
-import cx from 'classix'
+import { useClassNames } from 'packages/react/src/hooks/use-class-names'
 import { ComponentPropsWithRef, forwardRef } from 'react'
 import './index.less'
 
@@ -9,17 +9,26 @@ export type IconProps = ComponentPropsWithRef<'div'> & {
 
 export const Icon = forwardRef<HTMLDivElement, IconProps>(
   ({ url, className, style, normal, ...rest }, ref) => {
-    const maskStyle = {
-      mask: `url("${url}") no-repeat center / contain`,
-      WebkitMask: `url("${url}") no-repeat center / contain`,
+    const classNames = useClassNames(className, 'icon', {
+      mask: !normal,
+      img: normal,
+    })
+
+    if (normal) {
+      return (
+        <div className={classNames} style={style} {...rest} ref={ref}>
+          <img src={url} />
+        </div>
+      )
     }
 
     return (
       <div
-        className={cx('g-icon', className)}
+        className={classNames}
         style={{
           ...style,
-          ...(!normal && maskStyle),
+          mask: `url("${url}") no-repeat center / contain`,
+          WebkitMask: `url("${url}") no-repeat center / contain`,
         }}
         {...rest}
         ref={ref}></div>

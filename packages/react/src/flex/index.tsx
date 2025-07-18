@@ -1,4 +1,4 @@
-import cx from 'classix'
+import { useClassNames } from 'packages/react/src/hooks/use-class-names'
 import { forwardRef } from 'react'
 import './index.less'
 import { FlexProps } from './props'
@@ -10,7 +10,6 @@ const FlexContent = forwardRef<HTMLDivElement, FlexProps>(
       as: As = 'div',
       layout = '',
       block,
-      gap,
       className = '',
       onHover,
       onMouseEnter,
@@ -20,13 +19,11 @@ const FlexContent = forwardRef<HTMLDivElement, FlexProps>(
     },
     ref,
   ) => {
-    // const classNames = useClassNames(className, 'flex', {
-    //   hidden: !vshow,
-    //   [layout]: !!layout,
-    //   [`block-${block}`]: !!block,
-    //   [`gap-${gap}`]: !!gap && gap % 2 === 0,
-    // })
-    const classNames = cx('flex')
+    const classNames = useClassNames(className, 'flex', {
+      hidden: !vshow,
+      [layout]: !!layout,
+      [`block-${block}`]: !!block,
+    })
     return (
       <As
         ref={ref}
