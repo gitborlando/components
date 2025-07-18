@@ -1,7 +1,7 @@
 import { lessLoader } from 'esbuild-plugin-less'
 import fs from 'fs'
 import path from 'path'
-import { defineConfig } from 'tsup'
+import { build } from 'tsup'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -12,32 +12,31 @@ const components = fs.readdirSync(componentsDir).filter((name) => {
   const exclude = ['styles', 'hooks']
   return isDir && !exclude.includes(name)
 })
-fs.writeFileSync(path.resolve(__dirname, 'index.d.ts'), 'indexDts')
 
-export default defineConfig({
+await build({
   entry: components.map((name) => `src/${name}/index.tsx`),
   outDir: 'dist',
   format: 'esm',
-  // minify: true,
   dts: true,
   clean: true,
   esbuildPlugins: [
     lessLoader({
       javascriptEnabled: true,
+      modifyVars: lessVars(),
     }),
   ],
   esbuildOptions(options) {
     options.alias = {
-      '@utils': path.resolve(process.cwd(), '..', 'utils'),
+      '@utils': path.resolve(process.cwd(), '../utils'),
     }
   },
-  onSuccess: async () => {
-    components.forEach((name) => {
-      importCss(path.resolve(__dirname, 'dist', name))
-    })
-    exportIndex(path.resolve(__dirname, 'dist'))
-  },
 })
+
+components.forEach((name) => {
+  importCss(path.resolve(__dirname, 'dist', name))
+})
+
+exportIndex(path.resolve(__dirname, 'dist'))
 
 function importCss(dirname: string) {
   const jsxContent = fs.readFileSync(path.resolve(dirname, 'index.js'), 'utf-8')
@@ -54,4 +53,11 @@ function exportIndex(dirname: string) {
     indexDts += `export * from './${name}'\n`
   })
   fs.writeFileSync(path.resolve(dirname, 'index.js'), indexJs)
+  fs.writeFileSync(path.resolve(dirname, 'index.d.ts'), indexDts)
+}
+
+function lessVars() {
+  return {
+    '@prefix': 'g-',
+  }
 }
